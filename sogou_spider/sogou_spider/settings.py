@@ -19,7 +19,16 @@ NEWSPIDER_MODULE = 'sogou_spider.spiders'
 #USER_AGENT = 'sogou_spider (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
+
+# Crawlera APIs
+DOWNLOADER_MIDDLEWARES = {'scrapy_crawlera.CrawleraMiddleware': 300}
+CRAWLERA_ENABLED = True
+
+AUTOTHROTTLE_ENABLED = False
+CONCURRENT_REQUESTS = 8
+CONCURRENT_REQUESTS_PER_DOMAIN = 8
+DOWNLOAD_TIMEOUT = 300
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
