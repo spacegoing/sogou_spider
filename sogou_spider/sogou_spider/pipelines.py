@@ -14,9 +14,10 @@ class SogouSpiderPipeline(object):
 
 class JsonWriterPipeline(object):
     cached_dict = {}
+    count = 0
 
     def close_spider(self, spider):
-        with open('stock_links.json', 'w') as f:
+        with open('stock_links_%d.json' % self.count, 'w') as f:
             json.dump(self.cached_dict, f)
 
     def process_item(self, item, spider):
@@ -31,5 +32,6 @@ class JsonWriterPipeline(object):
             self.cached_dict[first_stock][second_stock] = {}
 
         self.cached_dict[first_stock][second_stock][item['type']] = item['resnum']
+        self.count += 1
 
         return item
