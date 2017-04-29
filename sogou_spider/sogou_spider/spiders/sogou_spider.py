@@ -35,4 +35,4 @@ class QuotesSpider(scrapy.Spider):
         except MissingValueException:
             # Retry when missing values
             yield scrapy.Request(url=response.url, callback=self.parse,
-                                 meta=response.meta)
+                                 meta=response.meta, dont_filter=True)

@@ -4,7 +4,7 @@
 #
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
-
+import scrapy
 from scrapy import signals
 
 
@@ -54,3 +54,16 @@ class SogouSpiderSpiderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class MyCustomDownloaderMiddleware:
+    def process_exception(self, request, exception, spider):
+        return scrapy.Request(url=request.url, callback=spider.parse,
+                              meta=request.meta, dont_filter=True)
+
+    def process_response(self, request, response, spider):
+        if response.status != 200:
+            return scrapy.Request(url=request.url, callback=spider.parse,
+                                  meta=request.meta, dont_filter=True)
+        else:
+            return response
