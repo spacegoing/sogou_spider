@@ -23,7 +23,7 @@ class QuotesSpider(scrapy.Spider):
                                  meta={'type': 'cooperation', 'names': names})
 
     def parse(self, response):
-        decode_names = [unquote(r) for r in response.meta['names']]
+        decode_names = [unquote(r).strip('"') for r in response.meta['names']]
         try:
             resnum = response.css('resnum#scd_num::text').extract_first()
 
