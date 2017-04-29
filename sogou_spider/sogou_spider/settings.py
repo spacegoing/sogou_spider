@@ -17,6 +17,8 @@ NEWSPIDER_MODULE = 'sogou_spider.spiders'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'sogou_spider (+http://www.yourdomain.com)'
 
+LOG_LEVEL = 'INFO'
+
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
 

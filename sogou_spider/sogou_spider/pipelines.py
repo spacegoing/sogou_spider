@@ -34,4 +34,6 @@ class JsonWriterPipeline(object):
         self.cached_dict[first_stock][second_stock][item['type']] = item['resnum']
         self.count += 1
 
+        spider.logger.info('%d: "%s"+AND+"%s"+AND+"%s"' % (self.count, first_stock, second_stock, item['type']))
+
         return item

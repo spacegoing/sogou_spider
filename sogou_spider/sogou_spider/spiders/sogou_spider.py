@@ -24,15 +24,13 @@ class QuotesSpider(scrapy.Spider):
 
     def parse(self, response):
         decode_names = [unquote(r).strip('"') for r in response.meta['names']]
-        try:
-            resnum = response.css('resnum#scd_num::text').extract_first()
+        resnum = response.css('resnum#scd_num::text').extract_first()
 
-            # .extract_first() return `None` when nothing exists
-            if not resnum:
-                raise MissingValueException
-            yield {'resnum': resnum, 'combo': decode_names, 'type': response.meta['type']}
+        # .extract_first() return `None` when nothing exists
+        # sogou doesn't display resnum when results < 1 page
+        if not resnum:
+            resnum = len(response.css('div.results').xpath('div'))
+            self.logger.info('Less than 1 page on query: "%s"+AND+"%s"+AND+"%s"' % (decode_names[0], decode_names[1],
+                                                                      response.meta['type']))
 
-        except MissingValueException:
-            # Retry when missing values
-            yield scrapy.Request(url=response.url, callback=self.parse,
-                                 meta=response.meta, dont_filter=True)
+        yield {'resnum': resnum, 'combo': decode_names, 'type': response.meta['type']}
